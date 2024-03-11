@@ -1,0 +1,121 @@
+﻿@model IEnumerable<CarvedRock.Admin.Controllers.QueItem>
+
+@section scripts { 
+    <script type="text/javascript">
+
+    const prep = function () {
+        // console.log("Prepare!");
+        const detailsArr = [];
+
+        const tdList = $("tbody > tr > td > input:checked");
+            console.log(`tdList.length: ${tdList.length}`);
+            tdList.parents('tr').each(function () {
+                const obj = {};
+                obj.Id = $(this).find('td h4').eq(0).text();    //jquery style
+                obj.Name = $(this).find('td h4')[1].innerText;  //jquery + js style
+                obj.Desc = $(this).find('td h4')[2].innerText;
+                detailsArr.push(obj);
+                });
+
+        if(detailsArr.length === 0) {
+            console.log("No items selected!");
+            return;
+        }
+
+        console.log(detailsArr);
+        console.log("Json stringified:");
+        const postJson = JSON.stringify(detailsArr);
+        console.log(postJson);
+
+        var url = '@Url.Action("SubmitDetails", "Que")';
+        console.log(url);
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: postJson,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+        })
+        .done(function () {
+            console.log("Ajax success!");
+        });
+        // .fail()
+        // .always();
+    };
+
+    $("#SubmitBtn").click(prep);
+
+    // $("#SubmitBtn").css("color", "green");
+    //     $("#placeholder").css("color", "green");
+    //     let head = document.getElementById("title");
+    //     head.style.backgroundColor = "green";
+    //     //head = document.getElementsByTagName("h1").item(0).style.backgroundColor = "yellow";
+
+    // $(document).ready(function () {
+    //     $("#SubmitBtn").css("color", "red");
+    //     $("#SubmitBtn").val = "ClickMe";
+    //     $("#SubmitBtn").click(prep);
+
+    //     // $("#title").remove();
+    //     let word = 'hello';
+    //     console.log(typeof(word));
+
+    //     let title = $("#title").text();
+    //     console.log(title);
+    // });
+</script>
+}
+@* <h1 id="title">@ViewData["Title"]</h1> *@
+<h1 id="title">@ViewBag.Msg</h1>
+
+@* <h2 id="h2">@ViewBag.Msg</h2> *@
+
+<div>
+    <div class="card">
+        <table >
+            <thead class="card-header">
+                <tr>
+                    <th class="visually-hidden">
+                        Id
+                    </th>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Desc
+                    </th>
+                    <th>
+                        Active
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="card-body">
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="visually-hidden">
+                            <h4>@item.Id</h4>
+                        </td>
+                        <td>
+                            <h4>@item.Name</h4>
+                        </td>
+                        <td>
+                            <h4>@item.Desc</h4>
+                        </td>
+                        <td>
+                            <input type="checkbox"/>
+                        </td>
+                    </tr>
+                    <div>
+                    </div>
+                }
+            </tbody>
+        </table>
+    </div>
+    <br />
+    <div class="align-self-end">
+        <input id="SubmitBtn" class="btn btn-primary" value="Post" />
+    </div>
+    @* <div id="placeholder">Green</div> *@
+</div>

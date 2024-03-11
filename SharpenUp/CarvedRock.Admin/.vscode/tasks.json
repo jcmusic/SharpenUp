@@ -1,0 +1,13 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "dotnet",
+			"task": "build c:\\Source\\Sandbox\\carvedrock-admin\\CarvedRock.Admin\\CarvedRock.Admin.csproj",
+			"file": "c:\\Source\\Sandbox\\carvedrock-admin\\CarvedRock.Admin\\CarvedRock.Admin.csproj",
+			"group": "build",
+			"problemMatcher": [],
+			"label": "dotnet: build c:\\Source\\Sandbox\\carvedrock-admin\\CarvedRock.Admin\\CarvedRock.Admin.csproj"
+		}
+	]
+}
